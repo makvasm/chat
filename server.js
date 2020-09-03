@@ -74,9 +74,14 @@ sequelize.sync()
     Chat.create({ name: "123Test", users: [1, 3] }).catch(err => console.log(err))
 
     Message.create({ author: 1, chat: 2, text: "awdawd" }).catch(err => console.log(err))
+<<<<<<< HEAD
       .then(() => setTimeout(() => Message.create({ author: 1, chat: 2, text: "awdawda" }), 0))
       .then(() => setTimeout(() => Message.create({ author: 1, chat: 2, text: "awdawda" }), 0))
       .then(() => setTimeout(() => Message.create({ author: 1, chat: 2, text: "awdawda" }), 0))
+=======
+    Message.create({ author: 1, chat: 2, text: "awdawda" }).catch(err => console.log(err))
+    Message.create({ author: 1, chat: 2, text: "awdawd" }).catch(err => console.log(err))
+>>>>>>> 832c6657b35e102c80db9b98fd04a92e87a5835a
 
   })
   .catch(err => console.log(err))
@@ -88,15 +93,23 @@ app.route("/users/add")
     let { username: name } = req.body
     if (!name) return res.status(400).send("Имя пользователя не указано")
     User.create({ name }).then(user => res.json({ id: user.id }))
+<<<<<<< HEAD
       .catch(err => res.status(500).send(err))
+=======
+>>>>>>> 832c6657b35e102c80db9b98fd04a92e87a5835a
   })
 
 app.route("/chats/add")
   .post((req, res) => {
     let { name, users } = req.body
+<<<<<<< HEAD
     if (!name) return res.status(400).send("Название чата не указано")
     Chat.create({ name, users }).then(chat => res.json({ id: chat.id }))
       .catch(err => res.status(500).json(err))
+=======
+    if (!name) return res.send("Название чата не указано")
+    Chat.create({ name, users }).then(chat => res.json({ id: chat.id }))
+>>>>>>> 832c6657b35e102c80db9b98fd04a92e87a5835a
   })
 
 app.route("/messages/add")
@@ -104,6 +117,7 @@ app.route("/messages/add")
     let { chat, author, text } = req.body
     if (!chat || !author || !text) return res.status(400).send("Укажите: id чата, id автора и текст сообщения")
     Message.create({ chat, author, text }).then(message => res.json({ id: message.id }))
+<<<<<<< HEAD
       .catch(err => res.status(500).json(err))
   })
 
@@ -113,15 +127,34 @@ app.route("/chats/get") //FIX
     if (!user_id) return res.status(400).send("Укажите id пользователя")
     Chat.findAll({ where: { users: { $contains: [user_id] } }, order: [["messages", 'ASC']] }).then(chats => res.json(chats))
       .catch(err => res.status(500).json(err))
+=======
+  })
+
+app.route("/chats/get")
+  .post((req, res) => {
+    let { user } = req.body
+    if (!user) return res.status(400).send("Укажите id пользователя")
+    Chat.findAll({ where: { users: { $contains: user } } }).then(chats => res.json(chats))
+>>>>>>> 832c6657b35e102c80db9b98fd04a92e87a5835a
   })
 
 app.route("/messages/get")
   .post((req, res) => {
     let { chat: id } = req.body
+<<<<<<< HEAD
     if (!id) return res.status(400).send("Введите id чата")
     Message.findAll({ where: { chat: id }, order: [["createdAt", "DESC"]] })
       .then(messages => res.json(messages))
       .catch(err => res.status(500).json(err))
   })
 
+=======
+    if (!chat) return res.status(400).send("Введите id чата")
+    Message.findAll({ where: { chat: id } })
+      .then(messages => res.json(messages))
+  })
+
+
+
+>>>>>>> 832c6657b35e102c80db9b98fd04a92e87a5835a
 app.listen(port, () => console.log(`listening ${port}`));
